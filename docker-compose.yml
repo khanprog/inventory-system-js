@@ -1,0 +1,23 @@
+version: "3"
+services:
+  web-app:
+    container_name: "inventory_web"
+    restart: always
+    build: .
+    environment: 
+      PORT: "3001"
+      MONGOURL: "mongodb://mongo:27018/inventory"
+      TOKEN_SECRET: "15e97f899177b40c1043164fbafdde785b1e3307c8a94d115613706d662e122ab7c7b9bdeaa6f3095433168801f3fe837daa570a9a70a3d9fdcaceb7e1297ea1"
+    ports:
+      - "3001:3001"
+    depends_on: 
+      - mongo
+    links:
+      - mongo
+  mongo:
+    container_name: "inventory_db"
+    image: mongo
+    volumes:
+      - ./data:/data/db
+    ports:
+      - '27018:27018'
